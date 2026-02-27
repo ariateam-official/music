@@ -13,26 +13,17 @@
     <meta name="application-name" content="آواپلیر">
     <meta name="mobile-web-app-capable" content="yes">
     
+    <!-- Safari specific -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="apple-touch-startup-image" href="splash.png">
+    
     <!-- PWA Icons -->
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-    <link rel="apple-touch-icon" href="icon-192.png">
     
     <!-- Manifest -->
     <link rel="manifest" href="manifest.json">
-    
-    <!-- Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').then(registration => {
-                    console.log('ServiceWorker registered');
-                }).catch(err => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-    </script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
@@ -57,16 +48,24 @@
             color: #ffffff;
             position: relative;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* PWA Installation Banner */
+        /* Safari fallback */
+        @supports not (backdrop-filter: blur(20px)) {
+            .access-section, .song-card, .player-controls, .files-section, .playlist-menu {
+                background: rgba(20, 20, 30, 0.95);
+            }
+        }
+
+        /* PWA Installation Banner - Safari friendly */
         .install-banner {
             position: fixed;
             bottom: 20px;
             left: 20px;
             right: 20px;
-            background: rgba(26, 26, 46, 0.95);
-            backdrop-filter: blur(20px);
+            background: #1a1a2e;
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 20px;
@@ -186,6 +185,7 @@
             justify-content: center;
             gap: 15px;
             margin-bottom: 10px;
+            flex-wrap: wrap;
         }
 
         .logo-icon {
@@ -264,6 +264,7 @@
             margin: 5px;
             position: relative;
             overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn::before {
@@ -304,13 +305,20 @@
             right: -400px;
             width: 400px;
             height: 100vh;
-            background: rgba(20, 20, 30, 0.95);
-            backdrop-filter: blur(20px);
+            background: #1a1a2e;
             border-left: 1px solid var(--glass-border);
             z-index: 1000;
             transition: right 0.3s ease;
             padding: 20px;
             box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .playlist-menu {
+                width: 100%;
+                right: -100%;
+            }
         }
 
         .playlist-menu.open {
@@ -441,6 +449,12 @@
             margin-bottom: 30px;
         }
 
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* کارت آهنگ */
         .song-card {
             background: rgba(255, 255, 255, 0.05);
@@ -542,6 +556,7 @@
             align-items: center;
             gap: 15px;
             margin: 25px 0;
+            flex-wrap: wrap;
         }
 
         .control-btn {
@@ -584,6 +599,7 @@
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid var(--glass-border);
+            flex-wrap: wrap;
         }
 
         .mode-btn {
@@ -627,6 +643,15 @@
             background: #4ecdc4;
             border-radius: 50%;
             cursor: pointer;
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            background: #4ecdc4;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
         }
 
         /* بخش فایل‌ها */
@@ -766,6 +791,7 @@
             gap: 10px;
             font-size: 0.75em;
             color: rgba(255,255,255,0.5);
+            flex-wrap: wrap;
         }
 
         .item-actions {
@@ -773,6 +799,12 @@
             gap: 5px;
             opacity: 0;
             transition: opacity 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .item-actions {
+                opacity: 1;
+            }
         }
 
         .music-item:hover .item-actions {
@@ -817,14 +849,14 @@
             top: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(-100px);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
+            background: #1a1a2e;
             border-radius: 20px;
             padding: 15px 40px;
             color: white;
             z-index: 2000;
             transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             border-right: 4px solid #4ecdc4;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .notification.show {
@@ -835,15 +867,37 @@
             border-right-color: #ff6b6b;
         }
 
-        @media (max-width: 1024px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .playlist-menu {
-                width: 100%;
-                right: -100%;
-            }
+        /* File input fallback - مخفی در حالت عادی */
+        .file-input-fallback {
+            display: none;
+        }
+
+        .file-input-fallback.show {
+            display: block;
+            margin-top: 15px;
+        }
+
+        .file-input-fallback input {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: white;
+            width: 100%;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .browser-warning {
+            background: rgba(255,107,107,0.2);
+            border: 1px solid #ff6b6b;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .browser-warning.show {
+            display: block;
         }
     </style>
 </head>
@@ -902,10 +956,23 @@
 
         <div class="access-section">
             <h2 style="margin-bottom: 20px;">به کتابخونه موسیقی‌ت خوش اومدی</h2>
+            
+            <!-- هشدار برای مرورگرهای قدیمی -->
+            <div class="browser-warning" id="browserWarning">
+                ⚠️ مرورگر شما از انتخاب پوشه پشتیبانی نمی‌کند. لطفاً فایل‌ها را به صورت جداگانه انتخاب کنید.
+            </div>
+            
             <button class="btn btn-icon" id="requestAccessBtn">
                 <span>📂</span>
                 <span>انتخاب پوشه موسیقی</span>
             </button>
+            
+            <!-- Fallback برای سافاری و مرورگرهای قدیمی -->
+            <div class="file-input-fallback" id="fileInputFallback">
+                <input type="file" id="fileInput" multiple accept="audio/*" webkitdirectory mozdirectory>
+                <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.7;">📱 در سافاری و مرورگرهای قدیمی، می‌توانید فایل‌ها را به صورت تکی انتخاب کنید</p>
+            </div>
+            
             <button class="btn btn-secondary btn-icon" id="refreshFilesBtn" style="display: none;">
                 <span>🔄</span>
                 <span>بروزرسانی</span>
@@ -1006,11 +1073,15 @@
                 this.deferredPrompt = null;
                 this.isOnline = navigator.onLine;
                 
+                // Browser support detection
+                this.supportsDirectoryPicker = 'showDirectoryPicker' in window;
+                this.isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                this.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                
                 // Properties
-                this.directoryHandle = null;
                 this.songs = [];
                 this.currentSongIndex = -1;
-                this.repeatMode = 'none'; // none, one, all
+                this.repeatMode = 'none';
                 this.shuffleMode = false;
                 this.playlists = [];
                 this.currentPlaylist = null;
@@ -1025,12 +1096,69 @@
                 this.checkOfflineStatus();
                 this.setupPWA();
                 this.setupMediaSession();
+                this.checkBrowserSupport();
+            }
+
+            checkBrowserSupport() {
+                const warning = document.getElementById('browserWarning');
+                const fileInputFallback = document.getElementById('fileInputFallback');
+                const requestBtn = document.getElementById('requestAccessBtn');
+                
+                if (!this.supportsDirectoryPicker || this.isSafari || this.isIOS) {
+                    warning.classList.add('show');
+                    fileInputFallback.classList.add('show');
+                    requestBtn.style.display = 'none';
+                    
+                    // Setup file input for Safari
+                    document.getElementById('fileInput').addEventListener('change', (e) => {
+                        this.handleFileSelect(e.target.files);
+                    });
+                }
+            }
+
+            handleFileSelect(files) {
+                this.songs = [];
+                
+                for (let file of files) {
+                    if (file.type.startsWith('audio/')) {
+                        let artist = 'ناشناس';
+                        let title = file.name.replace(/\.[^/.]+$/, "");
+                        
+                        // Try to extract artist from filename
+                        const parts = title.split(' - ');
+                        if (parts.length >= 2) {
+                            artist = parts[0].trim();
+                            title = parts[1].trim();
+                        }
+                        
+                        this.songs.push({
+                            file: file,
+                            name: file.name,
+                            size: file.size,
+                            lastModified: file.lastModified,
+                            url: URL.createObjectURL(file),
+                            artist: artist,
+                            title: title,
+                            id: Date.now() + Math.random(),
+                            isFavorite: this.favorites.includes(file.name)
+                        });
+                    }
+                }
+                
+                if (this.songs.length > 0) {
+                    this.sortSongs('name');
+                    this.renderFileList();
+                    this.showNotification(`${this.songs.length} آهنگ بارگذاری شد`, 'success');
+                    this.songCount.textContent = `${this.songs.length} آهنگ`;
+                    this.playerSection.style.display = 'grid';
+                    document.getElementById('refreshFilesBtn').style.display = 'inline-block';
+                }
             }
 
             setupEventListeners() {
                 // Main buttons
                 document.getElementById('requestAccessBtn').addEventListener('click', () => this.requestAccess());
-                document.getElementById('refreshFilesBtn').addEventListener('click', () => this.loadSongs());
+                document.getElementById('refreshFilesBtn').addEventListener('click', () => this.refreshFiles());
                 document.getElementById('showPlaylistBtn').addEventListener('click', () => this.togglePlaylistMenu());
                 document.getElementById('closePlaylistMenu').addEventListener('click', () => this.togglePlaylistMenu());
                 
@@ -1095,6 +1223,13 @@
 
                 // PWA install button
                 document.getElementById('installBtn').addEventListener('click', () => this.installPWA());
+            }
+
+            refreshFiles() {
+                if (this.songs.length > 0) {
+                    this.renderFileList();
+                    this.showNotification('لیست بروزرسانی شد', 'success');
+                }
             }
 
             // PWA Methods
@@ -1187,13 +1322,6 @@
             }
 
             loadFromStorage() {
-                // Load directory handle from localStorage
-                const savedHandle = localStorage.getItem('directoryHandle');
-                if (savedHandle) {
-                    // Note: We can't directly restore file handles, but we can show a message
-                    this.showNotification('پوشه قبلی پیدا شد. برای دسترسی دوباره کلیک کنید.', 'info');
-                }
-
                 // Load playlists
                 const savedPlaylists = localStorage.getItem('playlists');
                 if (savedPlaylists) {
@@ -1223,24 +1351,21 @@
             }
 
             async requestAccess() {
-                try {
-                    if (!window.showDirectoryPicker) {
-                        this.showNotification('مرورگر شما پشتیبانی نمی‌کند', 'error');
-                        return;
-                    }
+                if (!this.supportsDirectoryPicker) {
+                    this.showNotification('مرورگر شما پشتیبانی نمی‌کند. از گزینه انتخاب فایل استفاده کنید.', 'error');
+                    return;
+                }
 
-                    this.directoryHandle = await window.showDirectoryPicker({
+                try {
+                    const directoryHandle = await window.showDirectoryPicker({
                         id: 'music-directory',
                         mode: 'read'
                     });
 
-                    // Save handle permission in localStorage
-                    localStorage.setItem('directoryHandle', 'granted');
-
-                    const permissionState = await this.directoryHandle.queryPermission({ mode: 'read' });
+                    const permissionState = await directoryHandle.queryPermission({ mode: 'read' });
                     
                     if (permissionState !== 'granted') {
-                        const newPermission = await this.directoryHandle.requestPermission({ mode: 'read' });
+                        const newPermission = await directoryHandle.requestPermission({ mode: 'read' });
                         if (newPermission !== 'granted') {
                             this.showNotification('دسترسی رد شد', 'error');
                             return;
@@ -1249,7 +1374,7 @@
 
                     this.showNotification('دسترسی با موفقیت برقرار شد!', 'success');
                     document.getElementById('refreshFilesBtn').style.display = 'inline-block';
-                    await this.loadSongs();
+                    await this.loadSongsFromDirectory(directoryHandle);
 
                 } catch (error) {
                     if (error.name !== 'AbortError') {
@@ -1258,30 +1383,24 @@
                 }
             }
 
-            async loadSongs() {
-                if (!this.directoryHandle) {
-                    this.showNotification('لطفاً پوشه را انتخاب کنید', 'error');
-                    return;
-                }
-
+            async loadSongsFromDirectory(directoryHandle) {
                 this.showLoading();
                 this.songs = [];
 
                 try {
-                    for await (const entry of this.directoryHandle.values()) {
+                    for await (const entry of directoryHandle.values()) {
                         if (entry.kind === 'file') {
                             const fileName = entry.name.toLowerCase();
                             if (fileName.endsWith('.mp3') || fileName.endsWith('.wav') || 
                                 fileName.endsWith('.ogg') || fileName.endsWith('.m4a') ||
-                                fileName.endsWith('.flac') || fileName.endsWith('.aac')) {
+                                fileName.endsWith('.flac') || fileName.endsWith('.aac') ||
+                                fileName.endsWith('.mp4')) {
                                 
                                 const file = await entry.getFile();
                                 
-                                // Try to extract metadata
                                 let artist = 'ناشناس';
                                 let title = entry.name.replace(/\.[^/.]+$/, "");
                                 
-                                // Simple metadata extraction from filename (Artist - Title)
                                 const parts = title.split(' - ');
                                 if (parts.length >= 2) {
                                     artist = parts[0].trim();
@@ -1314,37 +1433,10 @@
                         this.showNotification(`${this.songs.length} آهنگ پیدا شد`, 'success');
                         this.songCount.textContent = `${this.songs.length} آهنگ`;
                         this.playerSection.style.display = 'grid';
-                        
-                        // Cache songs for offline use
-                        this.cacheSongsForOffline();
                     }
 
                 } catch (error) {
                     this.showNotification('خطا در خواندن فایل‌ها', 'error');
-                }
-            }
-
-            // Cache songs for offline use
-            async cacheSongsForOffline() {
-                if ('caches' in window && this.songs.length > 0) {
-                    const cache = await caches.open('music-cache-v1');
-                    
-                    // Cache only first 20 songs to avoid storage issues
-                    const songsToCache = this.songs.slice(0, 20);
-                    
-                    for (const song of songsToCache) {
-                        try {
-                            const response = new Response(song.file, {
-                                headers: {
-                                    'Content-Type': 'audio/mpeg',
-                                    'Content-Length': song.size
-                                }
-                            });
-                            await cache.put(`/music/${song.id}`, response);
-                        } catch (e) {
-                            console.log('Failed to cache song:', song.title);
-                        }
-                    }
                 }
             }
 
@@ -1411,6 +1503,11 @@
                 this.currentSongIndex = index;
                 const song = this.songs[index];
 
+                // Create new URL for the file
+                if (song.handle) {
+                    song.file = song.handle.getFile();
+                }
+                
                 song.url = URL.createObjectURL(song.file);
                 this.audio.src = song.url;
                 
@@ -1426,7 +1523,6 @@
                     this.showNotification('خطا در پخش', 'error');
                 });
 
-                // Update media session
                 this.updateMediaSession();
 
                 // Save current song to localStorage
@@ -1630,7 +1726,6 @@
 
                 const song = this.songs[songIndex];
                 
-                // Show playlist selection
                 const playlistId = prompt('آیدی پلی‌لیست را وارد کنید (برای دیدن لیست پلی‌لیست‌ها، منو را باز کنید):');
                 if (!playlistId) return;
 
@@ -1721,13 +1816,7 @@
         }
 
         const player = new AdvancedMusicPlayer();
-        window.player = player; // برای دسترسی از onclick
-
-        // Check browser support
-        if (!window.showDirectoryPicker) {
-            document.getElementById('requestAccessBtn').disabled = true;
-            player.showNotification('مرورگر شما پشتیبانی نمی‌کند', 'error');
-        }
+        window.player = player;
 
         // Add spin animation
         const style = document.createElement('style');

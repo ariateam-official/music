@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آواپلیر پیشرفته | TahaGhasemi 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: #0f0f1a;
+            min-height: 100vh;
+            color: #ffffff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* انیمیشن پس زمینه */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(125deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: glitter 20s linear infinite;
+            transform: rotate(45deg);
+        }
+
+        @keyframes glitter {
+            0% { transform: rotate(45deg) translateY(0); }
+            100% { transform: rotate(45deg) translateY(-50px); }
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* هدر */
+        header {
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon {
+            font-size: 3.5em;
+            filter: drop-shadow(0 0 20px rgba(255,107,107,0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .logo-text {
+            font-size: 3em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300% 300%;
+            animation: gradient 5s ease infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .creator-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 8px 25px;
+            font-size: 0.95em;
+        }
+
+        .creator-badge span {
+            color: #4ecdc4;
+            font-weight: 700;
+        }
+
+        .year {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            border-radius: 5px;
+            padding: 2px 8px;
+            margin-left: 5px;
+        }
+
+        /* بخش دسترسی */
+        .access-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            border: none;
+            color: white;
+            padding: 16px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(255,107,107,0.3);
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: 600;
+            margin: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #4a4e69, #22223b);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.9em;
+        }
+
+        /* منوی پلی‌لیست */
+        .playlist-menu {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255,255,255,0.1);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .playlist-menu.open {
+            right: 0;
+        }
+
+        .playlist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .playlist-header h3 {
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        .create-playlist {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .create-playlist input {
+            flex: 1;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: white;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .create-playlist input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        .playlists-list {
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .playlist-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .playlist-item:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(-5px);
+        }
+
+        .playlist-item.active {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 20px rgba(255,107,107,0.3);
+        }
+
+        .playlist-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .playlist-name {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .playlist-count {
+            background: rgba(255,107,107,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            color: #ff6b6b;
+        }
+
+        .playlist-songs {
+            font-size: 0.85em;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+        }
+
+        .delete-playlist {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 1.2em;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .delete-playlist:hover {
+            opacity: 1;
+        }
+
+        /* ساختار اصلی */
+        .main-content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* کارت آهنگ */
+        .song-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .cover-art {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .cover-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .cover-art:hover img {
+            transform: scale(1.1);
+        }
+
+        .cover-art.default {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+        }
+
+        .now-playing {
+            text-align: center;
+        }
+
+        .song-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .song-artist {
+            color: #4ecdc4;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+
+        /* کنترل‌ها */
+        .player-controls {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-area {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.1s linear;
+            position: relative;
+        }
+
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9em;
+        }
+
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .control-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+
+        .control-btn.active {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            box-shadow: 0 0 20px rgba(255,107,107,0.5);
+        }
+
+        .control-btn.play-btn {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            font-size: 30px;
+        }
+
+        .mode-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .mode-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            border-color: transparent;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 5px;
+            -webkit-appearance: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #4ecdc4;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* بخش فایل‌ها */
+        .files-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .sort-select {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            padding: 8px 20px;
+            color: white;
+            font-family: 'Vazirmatn', sans-serif;
+            cursor: pointer;
+        }
+
+        .sort-select option {
+            background: #1a1a2e;
+        }
+
+        .song-count {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9em;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px 5px;
+        }
+
+        .files-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .files-grid::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+
+        .files-grid::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            border-radius: 10px;
+        }
+
+        .music-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .music-item:hover {
+            transform: translateX(-5px);
+            border-color: rgba(255,107,107,0.3);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .music-item.active {
+            border: 2px solid #ff6b6b;
+            box-shadow: 0 0 30px rgba(255,107,107,0.3);
+        }
+
+        .item-cover {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .item-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.95em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 10px;
+            font-size: 0.75em;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .music-item:hover .item-actions {
+            opacity: 1;
+        }
+
+        .item-action-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 5px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .item-action-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .playing-indicator {
+            width: 8px;
+            height: 8px;
+            background: #4ecdc4;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        /* نوتیفیکیشن */
+        .notification {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 15px 40px;
+            color: white;
+            z-index: 2000;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-right: 4px solid #4ecdc4;
+        }
+
+        .notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .notification.error {
+            border-right-color: #ff6b6b;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .playlist-menu {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- منوی پلی‌لیست -->
+    <div class="playlist-menu" id="playlistMenu">
+        <div class="playlist-header">
+            <h3>📋 پلی‌لیست‌های من</h3>
+            <button class="close-btn" id="closePlaylistMenu">&times;</button>
+        </div>
+
+        <div class="create-playlist">
+            <input type="text" id="playlistNameInput" placeholder="نام پلی‌لیست جدید...">
+            <button class="btn btn-small" id="createPlaylistBtn">ایجاد</button>
+        </div>
+
+        <div class="playlists-list" id="playlistsList">
+            <!-- پلی‌لیست‌ها اینجا نمایش داده می‌شوند -->
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">🎵</span>
+                <span class="logo-text">آواپلیر پیشرفته</span>
+            </div>
+            <div class="creator-badge">
+                ساخته شده با <span>❤️</span> توسط <span>TahaGhasemi</span> 
+                <span class="year">2026</span>
+            </div>
+        </header>
+
+        <div class="access-section">
+            <h2 style="margin-bottom: 20px;">به کتابخونه موسیقی‌ت خوش اومدی</h2>
+            <button class="btn" id="requestAccessBtn">📂 انتخاب پوشه موسیقی</button>
+            <button class="btn btn-secondary" id="refreshFilesBtn" style="display: none;">🔄 بروزرسانی</button>
+            <button class="btn btn-secondary" id="showPlaylistBtn">📋 مدیریت پلی‌لیست</button>
+        </div>
+
+        <div class="main-content" id="playerSection" style="display: none;">
+            <!-- کارت آهنگ -->
+            <div class="song-card">
+                <div class="cover-art default" id="coverArt">
+                    <span>🎵</span>
+                </div>
+                <div class="now-playing">
+                    <div class="song-title" id="currentSongTitle">آهنگی انتخاب نشده</div>
+                    <div class="song-artist" id="currentSongArtist">TahaGhasemi</div>
+                </div>
+            </div>
+
+            <!-- کنترل‌ها -->
+            <div class="player-controls">
+                <audio id="audioPlayer" preload="metadata"></audio>
+
+                <div class="progress-area">
+                    <div class="progress-bar-container" id="progressContainer">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <div class="time-info">
+                        <span id="currentTime">00:00</span>
+                        <span id="duration">00:00</span>
+                    </div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="control-btn" id="shuffleBtn" title="تصادفی">🔀</button>
+                    <button class="control-btn" id="prevBtn" title="قبلی">⏮</button>
+                    <button class="control-btn play-btn" id="playPauseBtn" title="پخش/توقف">▶</button>
+                    <button class="control-btn" id="nextBtn" title="بعدی">⏭</button>
+                    <button class="control-btn" id="repeatBtn" title="تکرار">🔁</button>
+                </div>
+
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="sortByNameBtn">📝 مرتب‌سازی بر اساس نام</button>
+                    <button class="mode-btn" id="sortByDateBtn">📅 مرتب‌سازی بر اساس تاریخ</button>
+                    <button class="mode-btn" id="sortBySizeBtn">💾 مرتب‌سازی بر اساس حجم</button>
+                </div>
+
+                <div class="volume-control">
+                    <span>🔊</span>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+                </div>
+            </div>
+        </div>
+
+        <div class="files-section">
+            <div class="section-header">
+                <h2>📂 کتابخانه موسیقی</h2>
+                <div class="header-actions">
+                    <select class="sort-select" id="sortSelect">
+                        <option value="name">مرتب‌سازی: نام</option>
+                        <option value="date">مرتب‌سازی: تاریخ</option>
+                        <option value="size">مرتب‌سازی: حجم</option>
+                        <option value="artist">مرتب‌سازی: خواننده</option>
+                    </select>
+                    <span class="song-count" id="songCount">۰ آهنگ</span>
+                </div>
+            </div>
+            <div class="files-grid" id="fileList">
+                <div class="empty-state" style="text-align: center; padding: 60px; color: rgba(255,255,255,0.5);">
+                    <p style="font-size: 4em; margin-bottom: 20px;">🎵</p>
+                    <p>برای دیدن آهنگ‌ها، پوشه موسیقی رو انتخاب کن</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        class AdvancedMusicPlayer {
+            constructor() {
+                this.audio = document.getElementById('audioPlayer');
+                this.fileList = document.getElementById('fileList');
+                this.playerSection = document.getElementById('playerSection');
+                this.currentSongTitle = document.getElementById('currentSongTitle');
+                this.currentSongArtist = document.getElementById('currentSongArtist');
+                this.progressBar = document.getElementById('progressBar');
+                this.currentTime = document.getElementById('currentTime');
+                this.duration = document.getElementById('duration');
+                this.playPauseBtn = document.getElementById('playPauseBtn');
+                this.coverArt = document.getElementById('coverArt');
+                this.songCount = document.getElementById('songCount');
+                
+                // Properties
+                this.directoryHandle = null;
+                this.songs = [];
+                this.currentSongIndex = -1;
+                this.repeatMode = 'none'; // none, one, all
+                this.shuffleMode = false;
+                this.playlists = [];
+                this.currentPlaylist = null;
+                
+                // Load from localStorage
+                this.loadFromStorage();
+                
+                // Initialize
+                this.setupEventListeners();
+                this.renderPlaylists();
+            }
+
+            setupEventListeners() {
+                // Main buttons
+                document.getElementById('requestAccessBtn').addEventListener('click', () => this.requestAccess());
+                document.getElementById('refreshFilesBtn').addEventListener('click', () => this.loadSongs());
+                document.getElementById('showPlaylistBtn').addEventListener('click', () => this.togglePlaylistMenu());
+                document.getElementById('closePlaylistMenu').addEventListener('click', () => this.togglePlaylistMenu());
+                
+                // Player controls
+                document.getElementById('playPauseBtn').addEventListener('click', () => this.togglePlay());
+                document.getElementById('prevBtn').addEventListener('click', () => this.playPrevious());
+                document.getElementById('nextBtn').addEventListener('click', () => this.playNext());
+                document.getElementById('shuffleBtn').addEventListener('click', () => this.toggleShuffle());
+                document.getElementById('repeatBtn').addEventListener('click', () => this.toggleRepeat());
+                
+                // Sort buttons
+                document.getElementById('sortByNameBtn').addEventListener('click', () => this.sortSongs('name'));
+                document.getElementById('sortByDateBtn').addEventListener('click', () => this.sortSongs('date'));
+                document.getElementById('sortBySizeBtn').addEventListener('click', () => this.sortSongs('size'));
+                document.getElementById('sortSelect').addEventListener('change', (e) => this.sortSongs(e.target.value));
+                
+                // Playlist creation
+                document.getElementById('createPlaylistBtn').addEventListener('click', () => this.createPlaylist());
+                
+                // Audio events
+                this.audio.addEventListener('timeupdate', () => this.updateProgress());
+                this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
+                this.audio.addEventListener('ended', () => this.handleSongEnd());
+                this.audio.addEventListener('play', () => this.updatePlayButton());
+                this.audio.addEventListener('pause', () => this.updatePlayButton());
+
+                // Progress bar click
+                document.getElementById('progressContainer').addEventListener('click', (e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const percent = (e.clientX - rect.left) / rect.width;
+                    this.audio.currentTime = percent * this.audio.duration;
+                });
+
+                // Volume control
+                document.getElementById('volumeSlider').addEventListener('input', (e) => {
+                    this.audio.volume = e.target.value;
+                    localStorage.setItem('playerVolume', e.target.value);
+                });
+
+                // Load saved volume
+                const savedVolume = localStorage.getItem('playerVolume');
+                if (savedVolume) {
+                    this.audio.volume = parseFloat(savedVolume);
+                    document.getElementById('volumeSlider').value = savedVolume;
+                }
+            }
+
+            loadFromStorage() {
+                // Load directory handle from localStorage
+                const savedHandle = localStorage.getItem('directoryHandle');
+                if (savedHandle) {
+                    // Note: We can't directly restore file handles, but we can show a message
+                    this.showNotification('پوشه قبلی پیدا شد. برای دسترسی دوباره کلیک کنید.', 'info');
+                }
+
+                // Load playlists
+                const savedPlaylists = localStorage.getItem('playlists');
+                if (savedPlaylists) {
+                    this.playlists = JSON.parse(savedPlaylists);
+                }
+
+                // Load settings
+                this.repeatMode = localStorage.getItem('repeatMode') || 'none';
+                this.shuffleMode = localStorage.getItem('shuffleMode') === 'true';
+                
+                // Update UI for saved settings
+                this.updateRepeatButton();
+                this.updateShuffleButton();
+            }
+
+            saveToStorage() {
+                localStorage.setItem('playlists', JSON.stringify(this.playlists));
+                localStorage.setItem('repeatMode', this.repeatMode);
+                localStorage.setItem('shuffleMode', this.shuffleMode);
+            }
+
+            async requestAccess() {
+                try {
+                    if (!window.showDirectoryPicker) {
+                        this.showNotification('مرورگر شما پشتیبانی نمی‌کند', 'error');
+                        return;
+                    }
+
+                    this.directoryHandle = await window.showDirectoryPicker({
+                        id: 'music-directory',
+                        mode: 'read'
+                    });
+
+                    // Save handle permission in localStorage
+                    localStorage.setItem('directoryHandle', 'granted');
+
+                    const permissionState = await this.directoryHandle.queryPermission({ mode: 'read' });
+                    
+                    if (permissionState !== 'granted') {
+                        const newPermission = await this.directoryHandle.requestPermission({ mode: 'read' });
+                        if (newPermission !== 'granted') {
+                            this.showNotification('دسترسی رد شد', 'error');
+                            return;
+                        }
+                    }
+
+                    this.showNotification('دسترسی با موفقیت برقرار شد!', 'success');
+                    document.getElementById('refreshFilesBtn').style.display = 'inline-block';
+                    await this.loadSongs();
+
+                } catch (error) {
+                    if (error.name !== 'AbortError') {
+                        this.showNotification('خطا در دسترسی', 'error');
+                    }
+                }
+            }
+
+            async loadSongs() {
+                if (!this.directoryHandle) {
+                    this.showNotification('لطفاً پوشه را انتخاب کنید', 'error');
+                    return;
+                }
+
+                this.showLoading();
+                this.songs = [];
+
+                try {
+                    for await (const entry of this.directoryHandle.values()) {
+                        if (entry.kind === 'file') {
+                            const fileName = entry.name.toLowerCase();
+                            if (fileName.endsWith('.mp3') || fileName.endsWith('.wav') || 
+                                fileName.endsWith('.ogg') || fileName.endsWith('.m4a') ||
+                                fileName.endsWith('.flac')) {
+                                
+                                const file = await entry.getFile();
+                                this.songs.push({
+                                    handle: entry,
+                                    file: file,
+                                    name: entry.name,
+                                    size: file.size,
+                                    lastModified: file.lastModified,
+                                    url: URL.createObjectURL(file),
+                                    artist: 'TahaGhasemi',
+                                    title: entry.name.replace(/\.[^/.]+$/, ""),
+                                    id: Date.now() + Math.random()
+                                });
+                            }
+                        }
+                    }
+
+                    this.sortSongs('name');
+
+                    if (this.songs.length === 0) {
+                        this.fileList.innerHTML = '<div class="empty-state"><p style="font-size: 4em;">🎵</p><p>هیچ فایل موسیقی‌ای پیدا نشد</p></div>';
+                        this.songCount.textContent = '۰ آهنگ';
+                    } else {
+                        this.renderFileList();
+                        this.showNotification(`${this.songs.length} آهنگ پیدا شد`, 'success');
+                        this.songCount.textContent = `${this.songs.length} آهنگ`;
+                        this.playerSection.style.display = 'grid';
+                    }
+
+                } catch (error) {
+                    this.showNotification('خطا در خواندن فایل‌ها', 'error');
+                }
+            }
+
+            renderFileList() {
+                let html = '';
+                
+                this.songs.forEach((song, index) => {
+                    const isActive = index === this.currentSongIndex;
+                    const size = this.formatSize(song.size);
+                    const date = new Date(song.lastModified).toLocaleDateString('fa-IR');
+                    
+                    html += `
+                        <div class="music-item ${isActive ? 'active' : ''}" data-index="${index}">
+                            ${isActive ? '<div class="playing-indicator"></div>' : ''}
+                            <div class="item-cover">
+                                🎵
+                            </div>
+                            <div class="item-info">
+                                <div class="item-name">${song.title}</div>
+                                <div class="item-meta">
+                                    <span>${song.artist}</span>
+                                    <span>•</span>
+                                    <span>${size}</span>
+                                    <span>•</span>
+                                    <span>${date}</span>
+                                </div>
+                            </div>
+                            <div class="item-actions">
+                                <button class="item-action-btn" onclick="player.addToPlaylist(${index})" title="افزودن به پلی‌لیست">➕</button>
+                                <button class="item-action-btn" onclick="player.playSong(${index})" title="پخش">▶</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                this.fileList.innerHTML = html;
+            }
+
+            playSong(index) {
+                if (index < 0 || index >= this.songs.length) return;
+
+                if (this.currentSongIndex !== -1) {
+                    URL.revokeObjectURL(this.songs[this.currentSongIndex].url);
+                }
+
+                this.currentSongIndex = index;
+                const song = this.songs[index];
+
+                song.url = URL.createObjectURL(song.file);
+                this.audio.src = song.url;
+                
+                this.currentSongTitle.textContent = song.title;
+                this.currentSongArtist.textContent = song.artist;
+                
+                this.coverArt.innerHTML = '<span>🎵</span>';
+                this.coverArt.classList.add('default');
+
+                this.renderFileList();
+
+                this.audio.play().catch(e => {
+                    this.showNotification('خطا در پخش', 'error');
+                });
+
+                // Save current song to localStorage
+                localStorage.setItem('currentSong', JSON.stringify({
+                    index: index,
+                    title: song.title,
+                    artist: song.artist
+                }));
+            }
+
+            togglePlay() {
+                if (this.songs.length === 0) {
+                    this.showNotification('آهنگی انتخاب کنید', 'error');
+                    return;
+                }
+
+                if (this.currentSongIndex === -1 && this.songs.length > 0) {
+                    this.playSong(0);
+                    return;
+                }
+
+                if (this.audio.paused) {
+                    this.audio.play();
+                } else {
+                    this.audio.pause();
+                }
+            }
+
+            playPrevious() {
+                if (this.songs.length === 0) return;
+                
+                let newIndex;
+                if (this.shuffleMode) {
+                    newIndex = Math.floor(Math.random() * this.songs.length);
+                } else {
+                    newIndex = this.currentSongIndex - 1;
+                    if (newIndex < 0) newIndex = this.songs.length - 1;
+                }
+                
+                this.playSong(newIndex);
+            }
+
+            playNext() {
+                if (this.songs.length === 0) return;
+                
+                let newIndex;
+                if (this.shuffleMode) {
+                    newIndex = Math.floor(Math.random() * this.songs.length);
+                } else {
+                    newIndex = this.currentSongIndex + 1;
+                    if (newIndex >= this.songs.length) newIndex = 0;
+                }
+                
+                this.playSong(newIndex);
+            }
+
+            handleSongEnd() {
+                if (this.repeatMode === 'one') {
+                    this.audio.currentTime = 0;
+                    this.audio.play();
+                } else if (this.repeatMode === 'all') {
+                    this.playNext();
+                } else if (this.currentSongIndex < this.songs.length - 1) {
+                    this.playNext();
+                }
+            }
+
+            toggleShuffle() {
+                this.shuffleMode = !this.shuffleMode;
+                this.updateShuffleButton();
+                this.saveToStorage();
+                this.showNotification(this.shuffleMode ? 'حالت تصادفی فعال شد' : 'حالت تصادفی غیرفعال شد');
+            }
+
+            toggleRepeat() {
+                const modes = ['none', 'one', 'all'];
+                const currentIndex = modes.indexOf(this.repeatMode);
+                this.repeatMode = modes[(currentIndex + 1) % modes.length];
+                this.updateRepeatButton();
+                this.saveToStorage();
+                
+                const messages = {
+                    'none': 'حالت تکرار غیرفعال',
+                    'one': 'تکرار یک آهنگ فعال شد',
+                    'all': 'تکرار همه آهنگ‌ها فعال شد'
+                };
+                this.showNotification(messages[this.repeatMode]);
+            }
+
+            updateShuffleButton() {
+                const btn = document.getElementById('shuffleBtn');
+                if (this.shuffleMode) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            }
+
+            updateRepeatButton() {
+                const btn = document.getElementById('repeatBtn');
+                btn.classList.remove('active');
+                
+                if (this.repeatMode === 'one') {
+                    btn.textContent = '🔂';
+                    btn.classList.add('active');
+                } else if (this.repeatMode === 'all') {
+                    btn.textContent = '🔁';
+                    btn.classList.add('active');
+                } else {
+                    btn.textContent = '🔁';
+                }
+            }
+
+            sortSongs(criteria) {
+                switch(criteria) {
+                    case 'name':
+                        this.songs.sort((a, b) => a.title.localeCompare(b.title, 'fa'));
+                        break;
+                    case 'date':
+                        this.songs.sort((a, b) => b.lastModified - a.lastModified);
+                        break;
+                    case 'size':
+                        this.songs.sort((a, b) => b.size - a.size);
+                        break;
+                    case 'artist':
+                        this.songs.sort((a, b) => a.artist.localeCompare(b.artist, 'fa'));
+                        break;
+                }
+                this.renderFileList();
+            }
+
+            // Playlist functions
+            togglePlaylistMenu() {
+                document.getElementById('playlistMenu').classList.toggle('open');
+            }
+
+            createPlaylist() {
+                const nameInput = document.getElementById('playlistNameInput');
+                const name = nameInput.value.trim();
+                
+                if (!name) {
+                    this.showNotification('لطفاً نام پلی‌لیست را وارد کنید', 'error');
+                    return;
+                }
+
+                const playlist = {
+                    id: Date.now(),
+                    name: name,
+                    songs: [],
+                    createdAt: new Date().toISOString()
+                };
+
+                this.playlists.push(playlist);
+                this.saveToStorage();
+                this.renderPlaylists();
+                
+                nameInput.value = '';
+                this.showNotification(`پلی‌لیست "${name}" ساخته شد`, 'success');
+            }
+
+            renderPlaylists() {
+                const list = document.getElementById('playlistsList');
+                
+                if (this.playlists.length === 0) {
+                    list.innerHTML = '<div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">پلی‌لیستی وجود ندارد</div>';
+                    return;
+                }
+
+                let html = '';
+                
+                this.playlists.forEach(playlist => {
+                    const isActive = this.currentPlaylist === playlist.id;
+                    
+                    html += `
+                        <div class="playlist-item ${isActive ? 'active' : ''}" data-id="${playlist.id}">
+                            <div class="playlist-item-header">
+                                <span class="playlist-name">${playlist.name}</span>
+                                <span class="playlist-count">${playlist.songs.length} آهنگ</span>
+                            </div>
+                            <div class="playlist-songs">
+                                ${playlist.songs.slice(0, 3).map(s => s.title).join(' • ')}
+                                ${playlist.songs.length > 3 ? '...' : ''}
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                <button class="btn btn-small" onclick="player.loadPlaylist(${playlist.id})">پخش</button>
+                                <button class="delete-playlist" onclick="player.deletePlaylist(${playlist.id})" title="حذف پلی‌لیست">🗑️</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                list.innerHTML = html;
+            }
+
+            addToPlaylist(songIndex) {
+                if (!this.playlists.length) {
+                    this.showNotification('ابتدا یک پلی‌لیست بسازید', 'error');
+                    this.togglePlaylistMenu();
+                    return;
+                }
+
+                const song = this.songs[songIndex];
+                
+                // Show playlist selection
+                const playlistId = prompt('آیدی پلی‌لیست را وارد کنید (برای دیدن لیست پلی‌لیست‌ها، منو را باز کنید):');
+                if (!playlistId) return;
+
+                const playlist = this.playlists.find(p => p.id == playlistId);
+                if (!playlist) {
+                    this.showNotification('پلی‌لیست پیدا نشد', 'error');
+                    return;
+                }
+
+                playlist.songs.push({
+                    title: song.title,
+                    artist: song.artist,
+                    fileId: song.id
+                });
+
+                this.saveToStorage();
+                this.renderPlaylists();
+                this.showNotification(`آهنگ به ${playlist.name} اضافه شد`, 'success');
+            }
+
+            loadPlaylist(playlistId) {
+                this.currentPlaylist = playlistId;
+                this.renderPlaylists();
+                this.showNotification('پلی‌لیست بارگذاری شد', 'success');
+            }
+
+            deletePlaylist(playlistId) {
+                if (confirm('آیا مطمئن هستید؟')) {
+                    this.playlists = this.playlists.filter(p => p.id !== playlistId);
+                    if (this.currentPlaylist === playlistId) {
+                        this.currentPlaylist = null;
+                    }
+                    this.saveToStorage();
+                    this.renderPlaylists();
+                    this.showNotification('پلی‌لیست حذف شد', 'success');
+                }
+            }
+
+            updateProgress() {
+                if (this.audio.duration) {
+                    const percent = (this.audio.currentTime / this.audio.duration) * 100;
+                    this.progressBar.style.width = percent + '%';
+                    this.currentTime.textContent = this.formatTime(this.audio.currentTime);
+                }
+            }
+
+            updateDuration() {
+                this.duration.textContent = this.formatTime(this.audio.duration);
+            }
+
+            updatePlayButton() {
+                this.playPauseBtn.textContent = this.audio.paused ? '▶' : '⏸';
+            }
+
+            formatTime(seconds) {
+                if (isNaN(seconds)) return '00:00';
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            formatSize(bytes) {
+                if (bytes === 0) return '0 B';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+            }
+
+            showLoading() {
+                this.fileList.innerHTML = `
+                    <div class="empty-state" style="text-align: center; padding: 60px;">
+                        <div style="width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #ff6b6b; border-radius: 50%; margin: 0 auto 20px; animation: spin 1s linear infinite;"></div>
+                        <p>در حال بارگذاری آهنگ‌ها...</p>
+                    </div>
+                `;
+            }
+
+            showNotification(message, type = 'info') {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.className = `notification show ${type}`;
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        const player = new AdvancedMusicPlayer();
+        window.player = player; // برای دسترسی از onclick
+
+        // Check browser support
+        if (!window.showDirectoryPicker) {
+            document.getElementById('requestAccessBtn').disabled = true;
+            player.showNotification('مرورگر شما پشتیبانی نمی‌کند', 'error');
+        }
+
+        // Add spin animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
